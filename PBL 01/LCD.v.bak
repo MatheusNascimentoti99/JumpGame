@@ -1,0 +1,25 @@
+// lcd.v
+
+// This file was auto-generated as a prototype implementation of a module
+// created in component editor.  It ties off all outputs to ground and
+// ignores all inputs.  It needs to be edited to make it do something
+// useful.
+// 
+// This file will not be automatically regenerated.  You should check it in
+// to your version control system if you want to keep it.
+
+`timescale 1 ps / 1 ps
+module lcd (
+		input  wire        clk,     //          clock.clk
+		input  wire [31:0] dataa,   // avalon_slave_1.writebyteenable_n
+		input  wire [31:0] datab,   //               .writebyteenable_n
+		input  wire        clk_en,  //               .beginbursttransfer
+		output wire        enable,  //               .writeresponsevalid_n
+		output wire [9:0]  dataout  //               .readdata
+	);
+
+	// TODO: Auto-generated HDL template
+
+	assign dataout = 10'b0000000000;
+
+endmodule
