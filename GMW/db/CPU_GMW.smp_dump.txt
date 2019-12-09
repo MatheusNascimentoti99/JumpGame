@@ -1,0 +1,15 @@
+
+State Machine - |CPU|display:lcd_0|estadoAtual
+Name estadoAtual.01 estadoAtual.11 estadoAtual.00 
+estadoAtual.00 0 0 0 
+estadoAtual.01 1 0 1 
+estadoAtual.11 0 1 1 
+
+State Machine - |CPU|CPU_nios2_qsys_0:nios2_qsys_0|CPU_nios2_qsys_0_nios2_oci:the_CPU_nios2_qsys_0_nios2_oci|CPU_nios2_qsys_0_jtag_debug_module_wrapper:the_CPU_nios2_qsys_0_jtag_debug_module_wrapper|CPU_nios2_qsys_0_jtag_debug_module_tck:the_CPU_nios2_qsys_0_jtag_debug_module_tck|DRsize
+Name DRsize.101 DRsize.100 DRsize.011 DRsize.010 DRsize.001 DRsize.000 
+DRsize.000 0 0 0 0 0 0 
+DRsize.001 0 0 0 0 1 1 
+DRsize.010 0 0 0 1 0 1 
+DRsize.011 0 0 1 0 0 1 
+DRsize.100 0 1 0 0 0 1 
+DRsize.101 1 0 0 0 0 1 
