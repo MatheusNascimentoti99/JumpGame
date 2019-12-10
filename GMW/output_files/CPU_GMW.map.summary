@@ -1,13 +1,13 @@
-Analysis & Synthesis Status : Successful - Tue Dec 10 16:36:16 2019
+Analysis & Synthesis Status : Successful - Tue Dec 10 17:05:40 2019
 Quartus II 32-bit Version : 13.1.0 Build 162 10/23/2013 SJ Web Edition
 Revision Name : CPU_GMW
 Top-level Entity Name : CPU
 Family : Cyclone IV E
-Total logic elements : 1,887
-    Total combinational functions : 1,700
-    Dedicated logic registers : 973
-Total registers : 973
-Total pins : 16
+Total logic elements : 1,933
+    Total combinational functions : 1,743
+    Dedicated logic registers : 989
+Total registers : 989
+Total pins : 17
 Total virtual pins : 0
 Total memory bits : 44,032
 Embedded Multiplier 9-bit elements : 0

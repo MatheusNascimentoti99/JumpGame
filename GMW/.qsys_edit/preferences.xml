@@ -16,5 +16,5 @@
  </clocktable>
  <window width="1365" height="735" x="0" y="0" />
  <library
-   expandedCategories="Library/Interface Protocols,Library/Interface Protocols/Transceiver PHY,Library/Configuration &amp; Programming,Library/Peripherals/Microcontroller Peripherals,Library/Interface Protocols/Ethernet/Submodules,Library/Embedded Processors,Library/Verification/Simulation,Library/Interface Protocols/PCI,Library/Interface Protocols/SDI,Library/Verification/Debug &amp; Performance,Project,Library/Peripherals,Library/Interface Protocols/RapidIO,Library/Bridges,Library/Verification,Library/Bridges/Streaming,Library,Library/Interface Protocols/Ethernet" />
+   expandedCategories="Project,Library,Library/Peripherals,Library/Peripherals/Microcontroller Peripherals" />
 </preferences>
