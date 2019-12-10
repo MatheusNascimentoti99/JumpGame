@@ -28,7 +28,15 @@
          type = "int";
       }
    }
-   element LED
+   element LEDGameOver
+   {
+      datum _sortIndex
+      {
+         value = "8";
+         type = "int";
+      }
+   }
+   element LEDPause
    {
       datum _sortIndex
       {
@@ -48,7 +56,7 @@
    {
       datum baseAddress
       {
-         value = "8296";
+         value = "8328";
          type = "String";
       }
    }
@@ -92,11 +100,27 @@
          type = "int";
       }
    }
-   element PauseButton.s1
+   element LEDGameOver.s1
    {
       datum baseAddress
       {
-         value = "8240";
+         value = "8256";
+         type = "String";
+      }
+   }
+   element LEDPause.s1
+   {
+      datum baseAddress
+      {
+         value = "8304";
+         type = "String";
+      }
+   }
+   element JumpButton.s1
+   {
+      datum baseAddress
+      {
+         value = "8288";
          type = "String";
       }
    }
@@ -108,7 +132,7 @@
          type = "boolean";
       }
    }
-   element LED.s1
+   element PauseButton.s1
    {
       datum baseAddress
       {
@@ -116,20 +140,12 @@
          type = "String";
       }
    }
-   element JumpButton.s1
-   {
-      datum baseAddress
-      {
-         value = "8256";
-         type = "String";
-      }
-   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
- <parameter name="device" value="EP4CE30F23C7" />
+ <parameter name="device" value="EP4CE6E22C8" />
  <parameter name="deviceFamily" value="Cyclone IV E" />
- <parameter name="deviceSpeedGrade" value="7" />
+ <parameter name="deviceSpeedGrade" value="8" />
  <parameter name="fabricMode" value="QSYS" />
  <parameter name="generateLegacySim" value="false" />
  <parameter name="generationId" value="0" />
@@ -166,7 +182,7 @@
    dir="end" />
  <interface
    name="led_external_connection"
-   internal="LED.external_connection"
+   internal="LEDPause.external_connection"
    type="conduit"
    dir="end" />
  <interface
@@ -177,6 +193,11 @@
  <interface
    name="pausebutton_external_connection"
    internal="PauseButton.external_connection"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="ledgameover_external_connection"
+   internal="LEDGameOver.external_connection"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
@@ -299,8 +320,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x1000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='PauseButton.s1' start='0x2030' end='0x2040' /><slave name='JumpButton.s1' start='0x2040' end='0x2050' /><slave name='LED.s1' start='0x2050' end='0x2060' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x2068' end='0x2070' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x1000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='PauseButton.s1' start='0x2030' end='0x2040' /><slave name='JumpButton.s1' start='0x2040' end='0x2050' /><slave name='LED.s1' start='0x2050' end='0x2060' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x2068' end='0x2070' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x1000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='LEDGameOver.s1' start='0x2040' end='0x2050' /><slave name='PauseButton.s1' start='0x2050' end='0x2060' /><slave name='JumpButton.s1' start='0x2060' end='0x2070' /><slave name='LEDPause.s1' start='0x2070' end='0x2080' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x2088' end='0x2090' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x0' end='0x1000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1800' end='0x2000' /><slave name='LEDGameOver.s1' start='0x2040' end='0x2050' /><slave name='PauseButton.s1' start='0x2050' end='0x2060' /><slave name='JumpButton.s1' start='0x2060' end='0x2070' /><slave name='LEDPause.s1' start='0x2070' end='0x2080' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x2088' end='0x2090' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone IV E" />
   <parameter name="internalIrqMaskSystemInfo" value="32" />
@@ -361,7 +382,7 @@
   <parameter name="avalonSpec" value="2.0" />
  </module>
  <module kind="LCD" version="1.0" enabled="1" name="LCD_0" />
- <module kind="altera_avalon_pio" version="13.1" enabled="1" name="LED">
+ <module kind="altera_avalon_pio" version="13.1" enabled="1" name="LEDPause">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
@@ -407,6 +428,24 @@
   <parameter name="width" value="1" />
   <parameter name="clockRate" value="50000000" />
  </module>
+ <module
+   kind="altera_avalon_pio"
+   version="13.1"
+   enabled="1"
+   name="LEDGameOver">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="0" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="1" />
+  <parameter name="clockRate" value="50000000" />
+ </module>
  <connection
    kind="avalon"
    version="13.1"
@@ -431,7 +470,7 @@
    start="nios2_qsys_0.instruction_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2068" />
+  <parameter name="baseAddress" value="0x2088" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -440,7 +479,7 @@
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2068" />
+  <parameter name="baseAddress" value="0x2088" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -514,29 +553,33 @@
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0" />
  </connection>
- <connection kind="clock" version="13.1" start="clk_0.clk" end="LED.clk" />
- <connection kind="reset" version="13.1" start="clk_0.clk_reset" end="LED.reset" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="LEDPause.clk" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="LEDPause.reset" />
  <connection
    kind="reset"
    version="13.1"
    start="nios2_qsys_0.jtag_debug_module_reset"
-   end="LED.reset" />
+   end="LEDPause.reset" />
  <connection
    kind="avalon"
    version="13.1"
    start="nios2_qsys_0.data_master"
-   end="LED.s1">
+   end="LEDPause.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2050" />
+  <parameter name="baseAddress" value="0x2070" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
    kind="avalon"
    version="13.1"
    start="nios2_qsys_0.instruction_master"
-   end="LED.s1">
+   end="LEDPause.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2050" />
+  <parameter name="baseAddress" value="0x2070" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="JumpButton.clk" />
@@ -556,7 +599,7 @@
    start="nios2_qsys_0.instruction_master"
    end="JumpButton.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2040" />
+  <parameter name="baseAddress" value="0x2060" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -565,7 +608,7 @@
    start="nios2_qsys_0.data_master"
    end="JumpButton.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2040" />
+  <parameter name="baseAddress" value="0x2060" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -584,7 +627,7 @@
    start="nios2_qsys_0.instruction_master"
    end="PauseButton.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2030" />
+  <parameter name="baseAddress" value="0x2050" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="13.1" start="clk_0.clk" end="PauseButton.clk" />
@@ -594,9 +637,38 @@
    start="nios2_qsys_0.data_master"
    end="PauseButton.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x2030" />
+  <parameter name="baseAddress" value="0x2050" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="LEDGameOver.clk" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="LEDGameOver.reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.data_master"
+   end="LEDGameOver.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="nios2_qsys_0.instruction_master"
+   end="LEDGameOver.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="reset"
+   version="13.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="LEDGameOver.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="false" />

@@ -2,7 +2,7 @@ set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_VERSION "13.1"
 set_global_assignment -entity "CPU" -library "CPU" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "CPU" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../CPU.sopcinfo"]
-set_global_assignment -entity "CPU" -library "CPU" -name SLD_INFO "QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1576005315"
+set_global_assignment -entity "CPU" -library "CPU" -name SLD_INFO "QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1576007181"
 set_global_assignment -library "CPU" -name MISC_FILE [file join $::quartus(qip_path) "../../CPU.cmp"]
 set_global_assignment -library "CPU" -name SLD_FILE [file join $::quartus(qip_path) "CPU.regmap"]
 set_global_assignment -library "CPU" -name SLD_FILE [file join $::quartus(qip_path) "CPU.debuginfo"]
@@ -32,7 +32,7 @@ set_global_assignment -library "CPU" -name SYSTEMVERILOG_FILE [file join $::quar
 set_global_assignment -library "CPU" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_nios2_qsys_0_custom_instruction_master_multi_xconnect.sv"]
 set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/altera_customins_master_translator.v"]
 set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_JumpButton.v"]
-set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_LED.v"]
+set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_LEDPause.v"]
 set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/display.v"]
 set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_jtag_uart_0.v"]
 set_global_assignment -library "CPU" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/CPU_onchip_memory2_0.v"]
@@ -101,9 +101,9 @@ set_global_assignment -entity "altera_customins_master_translator" -library "CPU
 set_global_assignment -entity "CPU_JumpButton" -library "CPU" -name IP_TOOL_NAME "altera_avalon_pio"
 set_global_assignment -entity "CPU_JumpButton" -library "CPU" -name IP_TOOL_VERSION "13.1"
 set_global_assignment -entity "CPU_JumpButton" -library "CPU" -name IP_TOOL_ENV "Qsys"
-set_global_assignment -entity "CPU_LED" -library "CPU" -name IP_TOOL_NAME "altera_avalon_pio"
-set_global_assignment -entity "CPU_LED" -library "CPU" -name IP_TOOL_VERSION "13.1"
-set_global_assignment -entity "CPU_LED" -library "CPU" -name IP_TOOL_ENV "Qsys"
+set_global_assignment -entity "CPU_LEDPause" -library "CPU" -name IP_TOOL_NAME "altera_avalon_pio"
+set_global_assignment -entity "CPU_LEDPause" -library "CPU" -name IP_TOOL_VERSION "13.1"
+set_global_assignment -entity "CPU_LEDPause" -library "CPU" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -entity "CPU_jtag_uart_0" -library "CPU" -name IP_TOOL_NAME "altera_avalon_jtag_uart"
 set_global_assignment -entity "CPU_jtag_uart_0" -library "CPU" -name IP_TOOL_VERSION "13.1"
 set_global_assignment -entity "CPU_jtag_uart_0" -library "CPU" -name IP_TOOL_ENV "Qsys"

@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="e7aeca299224ddefd58c"/>
+    <hash md5_digest_80b="9e729402f3481c3d1ab0"/>
   </project>
   <file_info>
     <file device="EP4CE6E22C8" path="CPU_GMW.sof" usercode="0xFFFFFFFF"/>
@@ -144,7 +144,7 @@
   <sld_infos>
     <sld_info hpath="" name="">
       <assignment_values>
-        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1576005315"/>
+        <assignment_value text="QSYS_NAME CPU HAS_SOPCINFO 1 GENERATION_ID 1576007181"/>
       </assignment_values>
       <parameters/>
     </sld_info>
