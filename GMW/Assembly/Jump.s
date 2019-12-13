@@ -48,9 +48,9 @@
 	.equ perso, 0b10111101
 	.equ bloco, 0b11011011
 	#.equ bloco, 0b11111111
-	.equ count, 0x7a120
+	.equ count, 0x7a120					#contador para delay dos blocos
 	.data 
-	cenario: .word 0,0,0,0,1,1,1,0,0,0,0,1,1,1,1,1
+	cenario: .word 0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1
 	.global main
 	.text
 
@@ -204,10 +204,10 @@ start:
 	movia r18, count
 	mov r4, r0
 	ldw r8, 0(r20)			# Pega o valor do buttonPause
-	bne r8, r0, start
-	movia r23, clear
+	bne r8, r0, start		#Loop na tela inicial
+	movia r23, clear		#limpa o LCD
 	custom 0, r3, r0, r23
-	br verifica_pause
+	br verifica_pause		#Antes de iniciar a partida, verifica se o botão de pause está acionado
 
 #################################################
 # Liga um led sinalizando que está pausado		#
@@ -215,9 +215,9 @@ start:
 # caso não esteja a operação volta para o loop	#
 #################################################
 verifica_pause:
-	stw r1, 0(r22)			
-	ldw r8, 0(r21)
-	beq r8, r1, verifica_pause			
+	stw r1, 0(r22)						#Aciona o LED para informar que o jogo está em estado de pause		
+	ldw r8, 0(r21)						#Valor do botão de jump
+	beq r8, r1, verifica_pause			#loop até o jogador aperta o botão de pular	
 	stw r0, 0(r22)
 	ldw r8, 0(r20)
 	movia r23, init9
@@ -227,6 +227,10 @@ verifica_pause:
 	custom 0, r3, r0, r23
 	br movingPerson
 
+#################################################
+# Core para a movimentação dos blocos			#
+# r9 recebe o array com os blocos do senário,	#
+#################################################
 gameplay:	
 	movia r9, cenario
 	addi r2, r0, 16
@@ -274,54 +278,69 @@ swap:
 		subi r2, r2, 1
 		ret
 
-delay:			#falta implementar	
+#################################################
+# Tempo para os blocos se moverem				#
+# r18 é recrementado até chega a 0, para que	#
+#a velocidade com que os blocos se movem sejam 	#
+#visiveis ao olho humano						#
+#################################################
+delay:			
 	subi r18, r18, 1
 	bne r18, r0, delay
 	movia r18, count
-	br verifica_pause
+	br verifica_pause				# após passar o tempo suficiente para mover os blocos, o jogo retorna para o inicio, 
+									#com o objetivo de realizar todas as verificações necessária novamente
 
+#################################################################################
+# Movendo o personagem															#
+# Pega o valor do cenario, para verificar a localização do próximo bloco		#
+# Verifica condições para o jogador na parte de baixo do cenário				#
+# 		Colidir ou pular														#
+# Verifica condições em casos do jogador estiver em cima do bloco				#
+#		Descer ou ficar															#					
+#################################################################################
 movingPerson:
-	movia r9, cenario
-	ldb r6, 0(r9)
-	ldb r7, 4(r9)
-	beq r8, r0, buttonUp
-	beq r8, r1, buttonDown
-	br movingPerson
+	movia r9, cenario					#Ponteiro do array que contém o cenário
+	ldb r6, 0(r9)						#Recebe o primeiro elemento do cenário
+	beq r8, r0, buttonUp				#Passa a verificar as condições caso o jogador pule
+	beq r8, r1, buttonDown				#Passa a verificar as condições caso o jogador não pule
+	br movingPerson						
 
 buttonDown:
-	beq r4, r1, inUp			#Se estiver em cima e o próximo for bloco
-	bne r6, r0, collider
-	br moveDown
+	beq r4, r1, inUp			#Verifica se o jogador está em cima do bloco
+	bne r6, r0, collider		#Verifica se o próximo elemento do cenário é um bloco
+	br moveDown					#Se nenhuma das situações acontecerem, então ele se mantém na parte de baixo
 
 buttonUp:
-	beq r4, r1, inUp
-	br moveUp
+	beq r4, r1, inUp			#Verifica se o jogador está em cima do bloco
+	br moveUp					#Caso ele não esteja na parte de cima, então será realizada a ação de pular
 
 moveUp:
 	
 	movia r23, LCDup
-	custom 0, r3, r0, r23
+	custom 0, r3, r0, r23				#Para escrever o personagem na parte superior
 	custom 0, r3, r1, r16
+
 	mov r23, r0
 	movia r23, LCDdown
-	custom 0, r3, r0, r23
+	custom 0, r3, r0, r23			#Para deixar o cursor na linha de baixo novamente
 	addi r4, r0, 1
 	br gameplay
 
 moveDown:
 	mov r23, r0
 	movia r23, LCDdown
-	custom 0, r3, r0, r23
+	custom 0, r3, r0, r23			#Move o personagem para baixo
 	custom 0, r3, r1, r16
 	add r4, r0, r0
 	br gameplay
 
 inUp:
-	bne r6, r1, moveDown
-	br moveUp
+	bne r6, r1, moveDown			#Se o próximo elemento do cenario for um espaço, então o personagem vai descer do bloco
+	br moveUp						#Caso contrário, então ele continua na parte de cima
 
 collider:
-	stw r1, 0(r22)
-	br inicio
+	stw r1, 0(r22)					#Aciona a LED de gameOver
+	br inicio						#retorna para a tela inicial do jogo
 	
 
