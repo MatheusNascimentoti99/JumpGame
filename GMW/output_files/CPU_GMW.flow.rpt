@@ -1,5 +1,5 @@
 Flow report for CPU_GMW
-Tue Dec 10 17:06:13 2019
+Fri Dec 13 12:44:57 2019
 Quartus II 32-bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -40,7 +40,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Flow Summary                                                                    ;
 +------------------------------------+--------------------------------------------+
-; Flow Status                        ; Successful - Tue Dec 10 17:06:13 2019      ;
+; Flow Status                        ; Successful - Fri Dec 13 12:44:57 2019      ;
 ; Quartus II 32-bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; CPU_GMW                                    ;
 ; Top-level Entity Name              ; CPU                                        ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 12/10/2019 17:05:28 ;
+; Start date & time ; 12/13/2019 12:43:29 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; CPU_GMW             ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +-------------------------------------+-------------------------------------------------------+---------------+-----------------------------------------------------------+----------------+
 ; Assignment Name                     ; Value                                                 ; Default Value ; Entity Name                                               ; Section Id     ;
 +-------------------------------------+-------------------------------------------------------+---------------+-----------------------------------------------------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 229335795516239.157600832814904                       ; --            ; --                                                        ; --             ;
+; COMPILER_SIGNATURE_ID               ; 229335795516239.157625180942012                       ; --            ; --                                                        ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                                  ; --            ; --                                                        ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                                ; <None>        ; --                                                        ; --             ;
 ; IP_TOOL_ENV                         ; Qsys                                                  ; --            ; CPU                                                       ; --             ;
@@ -171,12 +171,12 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:11     ; 1.0                     ; 483 MB              ; 00:00:10                           ;
-; Fitter                    ; 00:00:13     ; 1.2                     ; 691 MB              ; 00:00:13                           ;
-; Assembler                 ; 00:00:01     ; 1.0                     ; 402 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 447 MB              ; 00:00:04                           ;
-; EDA Netlist Writer        ; 00:00:07     ; 1.0                     ; 387 MB              ; 00:00:04                           ;
-; Total                     ; 00:00:36     ; --                      ; --                  ; 00:00:33                           ;
+; Analysis & Synthesis      ; 00:00:40     ; 1.0                     ; 482 MB              ; 00:00:16                           ;
+; Fitter                    ; 00:00:21     ; 1.2                     ; 689 MB              ; 00:00:19                           ;
+; Assembler                 ; 00:00:03     ; 1.0                     ; 402 MB              ; 00:00:02                           ;
+; TimeQuest Timing Analyzer ; 00:00:07     ; 1.2                     ; 448 MB              ; 00:00:06                           ;
+; EDA Netlist Writer        ; 00:00:07     ; 1.0                     ; 382 MB              ; 00:00:04                           ;
+; Total                     ; 00:01:18     ; --                      ; --                  ; 00:00:47                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

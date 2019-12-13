@@ -68,7 +68,7 @@ CHIP  "CPU_GMW"  ASSIGNED TO AN: EP4CE6E22C8
 
 Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
 -------------------------------------------------------------------------------------------------------------
-RESERVED_INPUT_WITH_WEAK_PULLUP : 1         :        :                   :         : 1         :                
+pausebutton_external_connection_export : 1         : input  : 2.5 V             :         : 1         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : 2         :        :                   :         : 1         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : 3         :        :                   :         : 1         :                
 GND                          : 4         : gnd    :                   :         :           :                
@@ -91,8 +91,8 @@ altera_reserved_tdo          : 20        : output : 2.5 V             :         
 nCE                          : 21        :        :                   :         : 1         :                
 GND                          : 22        : gnd    :                   :         :           :                
 clk_clk                      : 23        : input  : 2.5 V             :         : 1         : Y              
-jumpbutton_external_connection_export : 24        : input  : 2.5 V             :         : 2         : Y              
-pausebutton_external_connection_export : 25        : input  : 2.5 V             :         : 2         : Y              
+GND+                         : 24        :        :                   :         : 2         :                
+jumpbutton_external_connection_export : 25        : input  : 2.5 V             :         : 2         : Y              
 VCCIO2                       : 26        : power  :                   : 2.5V    : 2         :                
 GND                          : 27        : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : 28        :        :                   :         : 2         :                
