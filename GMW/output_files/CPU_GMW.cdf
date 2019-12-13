@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE30F23) Path("C:/Users/mathe/Desktop/GMW/output_files/") File("CPU_GMW.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE6E22) Path("C:/Users/mathe/Desktop/GMW/output_files/") File("CPU_GMW.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
