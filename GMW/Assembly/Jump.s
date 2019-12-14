@@ -27,13 +27,13 @@
 	.equ init9, 0b00000001 # 1 Clear
 	.equ LCDup, 0b00000010 # Cursor home, início da linha 1
 	.equ LCDdown, 0b11000000 # Cursor na linha 2
-	.equ BUTTON, 0x2060
-	.equ PAUSE, 0x2050
-	.equ LEDLOSE, 0x2040
-	.equ LEDPAUSE, 0x2070
+	.equ BUTTON, 0x2060 # Endereço de memória do botão de pular
+	.equ PAUSE, 0x2050 # Endereço de memória do pause
+	.equ LEDLOSE, 0x2040 # Endereço de memória do Led de derrota
+	.equ LEDPAUSE, 0x2070 # Endereço de memória do Led de pausar
 	#LCD Characters
 	.equ blank, 0b10100000     #
-	.equ capital_p, 0b01010000 #3Pule para4 4iniciar!4
+	.equ capital_p, 0b01010000
 	.equ r, 0b01110010
 	.equ a, 0b01100001
 	.equ i, 0b01101001
@@ -47,46 +47,44 @@
 	.equ esp, 0b00100000
 	.equ perso, 0b10111101
 	.equ bloco, 0b11011011
-	#.equ bloco, 0b11111111
-	.equ count, 0x7a120					#contador para delay dos blocos
+	.equ count, 0x7a120	 # contador de 500.000 para delay dos blocos
 	.data 
-	cenario: .word 0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1
+	cenario: .word 0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1 # Pré alocação dos blocos que possibilita a manipulação deles sem precisar trocar informações com o lcd
 	.global main
 	.text
 
 #############################################################
-# Inicializa e atribui os valores da Linha 1 do LCD no 		#
-# r23, Linha 2 do LCD no r22, Button no r21, DipS no r20,	#
-# LEDs no r19 e atribui um Timer ao r18, r17 é o bloco, 	#
-# r16 é o personagem, r15 é o espaço, r14 é o score, 		#
-# r13 é a frequencia em que gera os blocos.......			#	
+# Inicializa e atribui os valores de manipulação do LCD no 	#
+# r23, Led pause no r22, o dip pause no r21, Button no r20, #
+# LED de derrota no r19 e atribui um Timer ao r18 	        #
+# , r17 é o bloco, r16 é o personagem, r15 é o espaço, 		#
+# r14 é o score.											#	
+#############################################################
 main:	
 	addi r1, r0, 1
 	call initLCD
 	movia r23, clear
-	movia r18, count
+	movia r18, count # Timer
 	custom 0, r3, r0, r23			
 	movia r22, LEDPAUSE	
 	movia r21, PAUSE		
 	movia r20, BUTTON	
 	movia r19, LEDLOSE	
-	#movia r18, 0x7a120	# Timer
 	movia r17, bloco
 	movia r16, perso
 	movia r15, esp
 	movia r14, 0	# Score
-	movia r13, 0	# BlockGen
 	call inicio
 	br start
 #Carregar tudo para o LCD antes de dar start
 
-##########################
+#########################
 # Inicialização do LCD	#
 #########################
 initLCD:
 		movia r23, init1
 		custom 0, r3, r0, r23 #Limpar Busy Flag
-		custom 0, r3, r0, r23 #
+		custom 0, r3, r0, r23
 		movia r23, init3
 		movia r23, init2
 		custom 0, r3, r0, r23
@@ -195,19 +193,18 @@ inicio:
 		add r10, r0, r11
 		custom 0, r3, r1, r10
 		ret
-#FAZER CENARIO INICIAL
+
 #################################################
 # Após inicializar tudo o start espera o 		#
 # primeiro toque no botão para começar o jogo. 	#
 #################################################
 start:  
-	movia r18, count
 	mov r4, r0
-	ldw r8, 0(r20)			# Pega o valor do buttonPause
-	bne r8, r0, start		#Loop na tela inicial
-	movia r23, clear		#limpa o LCD
+	ldw r8, 0(r20)			# Pega o valor do button de pulo
+	bne r8, r0, start		# Loop na tela inicial
+	movia r23, clear		# limpa o LCD
 	custom 0, r3, r0, r23
-	br verifica_pause		#Antes de iniciar a partida, verifica se o botão de pause está acionado
+	br verifica_pause		# Antes de iniciar a partida, verifica se o botão de pause está acionado
 
 #################################################
 # Liga um led sinalizando que está pausado		#
@@ -215,9 +212,9 @@ start:
 # caso não esteja a operação volta para o loop	#
 #################################################
 verifica_pause:
-	stw r1, 0(r22)						#Aciona o LED para informar que o jogo está em estado de pause		
-	ldw r8, 0(r21)						#Valor do botão de jump
-	beq r8, r1, verifica_pause			#loop até o jogador aperta o botão de pular	
+	stw r1, 0(r22)						# Aciona o LED para informar que o jogo está em estado de pause		
+	ldw r8, 0(r21)						# Valor do dip de pause
+	beq r8, r1, verifica_pause			# loop até o jogador despausar	
 	stw r0, 0(r22)
 	ldw r8, 0(r20)
 	movia r23, init9
@@ -237,13 +234,13 @@ gameplay:
 	br moveCen
 
 moveCen:
-	add r14, r0, r0
+	add r14, r0, r0	           #Zerando o score, mas porque?
 	beq r2, r0, movingOn
 	ldw r5, 0(r9)
-	beq r5, r0, adsEsp
-	bne r5, r0, adsBlo
-	addi r2, r0, 16
-	br moveCen
+	beq r5, r0, adsEsp         	# Se for 0 escreve espaço
+	bne r5, r0, adsBlo			# Se for 1 escreve bloco
+	addi r2, r0, 16				# Parece que nunca será alcançado, se não for, retira do código
+	br moveCen					# Parece que nunca será alcançado
 
 adsEsp:
 		movia r11, esp
@@ -262,15 +259,15 @@ adsBlo:
 
 
 movingOn:
-		movia r9, cenario
+		movia r9, cenario			# Move a base do vetor para o registrador r9
 		addi r2, r0, 16
-		br moving
+		br moving					# O objetivo dele é colocar a primeira posição do vetor para a ultima sem comprometer a ordem do array
 moving:		
-		beq r2, r0, delay
+		beq r2, r0, delay			# Se r2 for igual a 0 o processo vai para o delay
 		call swap
-		addi r9, r9, 4 
+		addi r9, r9, 4 				# Vai para a proxima posição do array "r9[i] = r9[i+1]"
 		br moving
-swap:
+swap:								# Ele troca a primeira posição para a segunda posição
 		ldw r6, 0(r9)
 		ldw r7, 4(r9)
 		stw r7, 0(r9)
