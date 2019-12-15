@@ -6,9 +6,10 @@
 #			William "Capitão" Soares														#
 #																							#
 # Componente Curricular: Sistemas Digitais	 												#
-# Concluido em: 01/12/2019	<- ISSO DAQUI SERIA UM SONHO									#
-# Declaro que este código foi elaborado por mim de forma individual e não contém nenhum 	#
-# trecho de código de outro colega ou de outro autor, tais como provindos de livros e 		#
+# Concluido em: 01/12/2019	<- ISSO DAQUI SERIA UM SONHO
+# Concluido em: 14/12/2019	<- NÃO É UM SONHO, MAS TÁ BOM									#
+# Declaro que este código foi elaborado por nós de forma coletiva e não contém nenhum 		#
+# trecho de código de outro grupo ou de outro autor, tais como provindos de livros e 		#
 # apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código		#
 # de outra autoria que não a minha está destacado com uma citação para o autor e a fonte	#
 # do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.#
@@ -45,9 +46,10 @@
 	.equ c, 0b01100011
 	.equ excla, 0b00100001
 	.equ esp, 0b00100000
-	.equ perso, 0b10111101
+	.equ perso, 0b10101011
 	.equ bloco, 0b11011011
 	.equ count, 0x7a120	 # contador de 500.000 para delay dos blocos
+	.equ baseNumbers, 0b00110000
 	.data 
 	cenario: .word 0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1 # Pré alocação dos blocos que possibilita a manipulação deles sem precisar trocar informações com o lcd
 	.global main
@@ -192,6 +194,9 @@ inicio:
 		movia r11, excla
 		add r10, r0, r11
 		custom 0, r3, r1, r10
+
+		add r14, r0, r0	           #Zerando o score
+		add r12, r0, r0 			#valor da centena	
 		ret
 
 #################################################
@@ -234,7 +239,6 @@ gameplay:
 	br moveCen
 
 moveCen:
-	add r14, r0, r0	           #Zerando o score, mas porque?
 	beq r2, r0, movingOn
 	ldw r5, 0(r9)
 	beq r5, r0, adsEsp         	# Se for 0 escreve espaço
@@ -297,6 +301,9 @@ delay:
 #		Descer ou ficar															#					
 #################################################################################
 movingPerson:
+	add r14, r14, r1
+	call scoreDec_Uni
+	call is_hund
 	movia r9, cenario					#Ponteiro do array que contém o cenário
 	ldb r6, 0(r9)						#Recebe o primeiro elemento do cenário
 	beq r8, r0, buttonUp				#Passa a verificar as condições caso o jogador pule
@@ -310,6 +317,7 @@ buttonDown:
 
 buttonUp:
 	beq r4, r1, inUp			#Verifica se o jogador está em cima do bloco
+	#beq r6, r1, increment_score	#Vai pular um bloco, logo ganhará um ponto			
 	br moveUp					#Caso ele não esteja na parte de cima, então será realizada a ação de pular
 
 moveUp:
@@ -338,6 +346,255 @@ inUp:
 
 collider:
 	stw r1, 0(r22)					#Aciona a LED de gameOver
-	br inicio						#retorna para a tela inicial do jogo
+	br main						#retorna para a tela inicial do jogo
 	
+
+increment_score:
+	addi r14, r14, 1
+	br moveUp
+
+#################################################################################
+# Placar																		#
+# Verifica a casa decimal da pontuação											#
+# exemplo: se r14 < 9, r6 recebe 0, então vai para a função de unidade			#					
+#################################################################################
+scoreDec_Uni:
+	movia r10, baseNumbers
+	cmpleui r6, r14, 99
+	beq r6, r0, hund
+	cmpgtui r6, r14, 9 
+	beq r6, r0, uni
+	cmpgtui r6, r14, 19
+	beq r6, r0, dec1
+	cmpgtui r6, r14, 29
+	beq r6, r0, dec2
+	cmpgtui r6, r14, 39
+	beq r6, r0, dec3
+	cmpgtui r6, r14, 49
+	beq r6, r0, dec4
+	cmpgtui r6, r14, 59
+	beq r6, r0, dec5
+	cmpgtui r6, r14, 69
+	beq r6, r0, dec6
+	cmpgtui r6, r14, 79
+	beq r6, r0, dec7
+	cmpgtui r6, r14, 89
+	beq r6, r0, dec8
+	cmpgtui r6, r14, 99
+	beq r6, r0, dec9
+	ret
+
+uni:
+	addi r23, r0, 0x0e
+	addi r6, r10, 0
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23		#Move o cursor para o local do placar para o local da dezena
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	addi r23, r0, 0x0F
+	add r10, r10, r14
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar para o local da unidade
+	custom 0, r3, r1, r10
+	ret
+dec1:
+	addi r23, r0, 0x0e
+	addi r6, r10, 1
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 10
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+dec2:
+	addi r23, r0, 0x0e
+	addi r6, r10, 2
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 20
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+dec3:
+	addi r23, r0, 0x0e
+	addi r6, r10, 3
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 30
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec4:
+	addi r23, r0, 0x0e
+	addi r6, r10, 4
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 40
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec5:
+	addi r23, r0, 0x0e
+	addi r6, r10, 5
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 50
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec6:
+	addi r23, r0, 0x0e
+	addi r6, r10, 6
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 60
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec7:
+	addi r23, r0, 0x0e
+	addi r6, r10, 7
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 70
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec8:
+	addi r23, r0, 0x0e
+	addi r6, r10, 8
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 80
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+dec9:
+	addi r23, r0, 0x0e
+	addi r6, r10, 9
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	subi r6, r6, 90
+	addi r23, r0, 0x0F
+	add r6, r6, r10 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+
+#################################################################################
+# Incrementar centena															#
+# Caso o valor do contador ultrapasse 99, então essa função é chama para -		#
+# incrementa o valor da centena													#
+# exemplo: se r14 < 99, r12 recebe r12 + 1, então retorna para função de dezena	#					
+#################################################################################
+hund:
+	addi r23, r0, 0x0D
+	addi r6, r10, 1
+	add r14, r0, r0
+	addi r12, r12, 1 
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local da centena
+	custom 0, r3, r1, r6			#Envia o valor da centena
+
+	addi r23, r0, 0x0e
+	addi r6, r10, 0
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23
+	custom 0, r3, r1, r6
+	#stb r11, 14(r23)
+	add r6, r0, r14
+
+	addi r23, r0, 0x0F
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local do placar
+	custom 0, r3, r1, r6
+	ret
+	
+is_hund:							#Verifica se a pontuação do jogador já está na casa das centenas
+	bne r12, r0, decimal_hund
+	ret
+
+#########################################################################################################################################
+# Escreve valor da centena																												#
+# Caso o pontuação já esteja com mais de 99, então essa função é chamada para imprimir o valor da centena								#
+# 																																		#					
+#########################################################################################################################################
+decimal_hund:						
+	movia r10, baseNumbers
+	addi r23, r0, 0x0D
+	add r6, r10, r12
+	addi r23, r23, 0x80
+	custom 0, r3, r0, r23			#Move o cursor para o local da centena
+	custom 0, r3, r1, r6			#Envia o valor da centena
+	ret
+
 
