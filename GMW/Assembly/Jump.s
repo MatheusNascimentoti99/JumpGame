@@ -301,7 +301,7 @@ delay:
 #		Descer ou ficar															#					
 #################################################################################
 movingPerson:
-	add r14, r14, r1
+	#add r14, r14, r1
 	call scoreDec_Uni
 	call is_hund
 	movia r9, cenario					#Ponteiro do array que contém o cenário
@@ -317,7 +317,7 @@ buttonDown:
 
 buttonUp:
 	beq r4, r1, inUp			#Verifica se o jogador está em cima do bloco
-	#beq r6, r1, increment_score	#Vai pular um bloco, logo ganhará um ponto			
+	beq r6, r1, increment_score	#Vai pular um bloco, logo ganhará um ponto			
 	br moveUp					#Caso ele não esteja na parte de cima, então será realizada a ação de pular
 
 moveUp:
