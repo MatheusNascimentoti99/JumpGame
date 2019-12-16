@@ -51,7 +51,7 @@
 	.equ count, 0x7a120	 # contador de 500.000 para delay dos blocos
 	.equ baseNumbers, 0b00110000
 	.data 
-	cenario: .word 0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,1 # Pré alocação dos blocos que possibilita a manipulação deles sem precisar trocar informações com o lcd
+	cenario: .word 0,0,1,1,0,0,0,1,1,1,0,0,1,1,1,1 # Pré alocação dos blocos que possibilita a manipulação deles sem precisar trocar informações com o lcd
 	.global main
 	.text
 
@@ -76,6 +76,9 @@ main:
 	movia r16, perso
 	movia r15, esp
 	movia r14, 0	# Score
+	mov r14, r0	           #Zerando o score
+	mov r12, r0 			#valor da centena
+	mov r13, r0
 	call inicio
 	br start
 #Carregar tudo para o LCD antes de dar start
@@ -193,10 +196,7 @@ inicio:
 		custom 0, r3, r1, r10
 		movia r11, excla
 		add r10, r0, r11
-		custom 0, r3, r1, r10
-
-		add r14, r0, r0	           #Zerando o score
-		add r12, r0, r0 			#valor da centena	
+		custom 0, r3, r1, r10	
 		ret
 
 #################################################
@@ -240,9 +240,9 @@ gameplay:
 
 moveCen:
 	beq r2, r0, movingOn
-	ldw r5, 0(r9)
-	beq r5, r0, adsEsp         	# Se for 0 escreve espaço
-	bne r5, r0, adsBlo			# Se for 1 escreve bloco
+	ldw r6, 0(r9)
+	beq r6, r0, adsEsp         	# Se for 0 escreve espaço
+	bne r6, r0, adsBlo			# Se for 1 escreve bloco
 	addi r2, r0, 16				# Parece que nunca será alcançado, se não for, retira do código
 	br moveCen					# Parece que nunca será alcançado
 
@@ -301,6 +301,7 @@ delay:
 #		Descer ou ficar															#					
 #################################################################################
 movingPerson:
+	addi r5, r5, 1
 	#add r14, r14, r1
 	call scoreDec_Uni
 	call is_hund
@@ -316,9 +317,26 @@ buttonDown:
 	br moveDown					#Se nenhuma das situações acontecerem, então ele se mantém na parte de baixo
 
 buttonUp:
+	addi r13, r13, 1
+	call check_up  
+
+up:	
 	beq r4, r1, inUp			#Verifica se o jogador está em cima do bloco
 	beq r6, r1, increment_score	#Vai pular um bloco, logo ganhará um ponto			
 	br moveUp					#Caso ele não esteja na parte de cima, então será realizada a ação de pular
+
+check_up:
+	beq r5, r13, noUp			#Verifica se o jogador está pressionando o botão
+	mov r5, r0
+	mov r13, r0
+	br up
+
+noUp:
+	beq r4, r1, inUp		#Se onde o jogador estever houver bloco, então ele perderá a partida	
+	beq r6, r1, collider
+	mov r5, r0
+	mov r13, r0
+	br moveDown
 
 moveUp:
 	
