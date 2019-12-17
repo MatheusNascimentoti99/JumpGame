@@ -1,12 +1,12 @@
 #############################################################################################
 # Descrição: Jogo de salto simples para uma fpga											#
 # 																							#
-# Autores: 	Gustavo "Kowaski" Alves,														#
-#			Matheus "Rico" Nascimento e 													#		
-#			William "Capitão" Soares														#
+# Autores: 	Gustavo Alves														#
+#			Matheus Nascimento 													#		
+#			William Soares														#
 #																							#
 # Componente Curricular: Sistemas Digitais	 												#
-# Concluido em: 01/12/2019	<- ISSO DAQUI SERIA UM SONHO									#
+# Concluido em: 17/12/2019										#
 # Declaro que este código foi elaborado por mim de forma individual e não contém nenhum 	#
 # trecho de código de outro colega ou de outro autor, tais como provindos de livros e 		#
 # apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código		#
